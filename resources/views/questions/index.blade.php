@@ -10,6 +10,29 @@
                 <div class="card-body">
                     @foreach($questions as $question)
                         <div class="media">
+                            <div class="d-flex flex-column counters">
+                                <div class="vote">
+                                    <div>
+                                        <span class="subtext">
+                                            {{ $question->votes }}
+                                        </span>
+                                        {{ Str::plural('vote', $question->votes) }}
+                                    </div>
+                                </div>
+                                <div class="status {{ $question->status }}">
+                                    <div>
+                                        <span class="subtext">
+                                            {{ $question->answers }}
+                                        </span>
+                                        {{ Str::plural('answer', $question->answers) }}
+                                    </div>
+                                </div>
+                                <div class="views">
+                                    <div>
+                                        {{ $question->views . " " .Str::plural('view',      $question->views) }}
+                                    </div>
+                                </div>
+                            </div>
                             <div class="media-body">
                                 <h3 class="mt-0">
                                     <a href="{{ $question->url }}">{{ $question->title }}</a>
@@ -17,7 +40,6 @@
                                         Asked by <a href="{{ $question->user->url }}">{{ $question->user->name }}</a>
                                         <small class="text-muted">{{ $question->created_date }}</small>
                                     </p>
-                                    {{ $question->title }}
                                 </h3>
                                 {{ Str::limit($question->body, 250) }}
                             </div>
