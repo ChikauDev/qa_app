@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\AskQuestionRequest;
 
 class QuestionController extends Controller
 {
@@ -39,9 +41,11 @@ class QuestionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AskQuestionRequest $request)
     {
-        //
+        $request->user()->questions()->create($request->only('title','body'));
+
+        return redirect()->route('questions.index')->with('success', 'Your question has been submitted.');
     }
 
     /**
@@ -50,9 +54,10 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Question $question)
     {
-        //
+        $question->increment('views');
+        return view('questions.show', compact('question'));
     }
 
     /**
@@ -61,9 +66,13 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Question $question)
     {
-        //
+        if(Gate::denies('update-question', $question)){
+            abort(403,"Access denied");
+        }
+        return view('questions.edit', compact('question'));
+
     }
 
     /**
@@ -73,9 +82,14 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AskQuestionRequest $request, Question $question)
     {
-        //
+        if(Gate::denies('update-question', $question)){
+            abort(403,"Access denied");
+        }
+
+        $question->update($request->only('title', 'body'));
+        return redirect('/questions')->with('success', 'Your question has been updated');
     }
 
     /**
@@ -84,8 +98,14 @@ class QuestionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Question $question)
     {
-        //
+        if(Gate::denies('delete-question', $question)){
+            abort(403,"Access denied");
+        }
+
+        $question->delete();
+
+        return redirect('/questions')->with('success', 'Your question has been deleted');
     }
 }

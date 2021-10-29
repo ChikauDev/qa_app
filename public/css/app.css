@@ -10037,3 +10037,7 @@ h3 {
   margin-top: 10px;
   font-size: 12px;
 }
+
+form.form-delete {
+  display: inline;
+}
