@@ -32,9 +32,9 @@
                                 <div class="status {{ $question->status }}">
                                     <div>
                                         <span class="subtext">
-                                            {{ $question->answers }}
+                                            {{ $question->answers_count }}
                                         </span>
-                                        {{ Str::plural('answer', $question->answers) }}
+                                        {{ Str::plural('answer', $question->answers_count) }}
                                     </div>
                                 </div>
                                 <div class="views">

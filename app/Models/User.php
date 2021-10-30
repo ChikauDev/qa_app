@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Answer;
 use App\Models\Question;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
@@ -51,6 +52,10 @@ class User extends Authenticatable
     public function getUrlAttirbute(){
         // return route("questions.show", $this->id);
         return "#";
+    }
+
+    public function answers(){
+        return $this->hasMany(Answer::class);
     }
 
 }
