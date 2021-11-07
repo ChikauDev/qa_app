@@ -33,3 +33,4 @@ class UsersQuestionsAnswersTableSeeder extends Seeder
         });
     }
 }
+ 

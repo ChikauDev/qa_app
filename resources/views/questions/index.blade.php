@@ -24,9 +24,9 @@
                                 <div class="vote">
                                     <div>
                                         <span class="subtext">
-                                            {{ $question->votes }}
+                                            {{ $question->votes_count }}
                                         </span>
-                                        {{ Str::plural('vote', $question->votes) }}
+                                        {{ Str::plural('vote', $question->votes_count) }}
                                     </div>
                                 </div>
                                 <div class="status {{ $question->status }}">
