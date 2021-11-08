@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Answer;
 use App\Models\User;
 use App\Models\Question;
 use Illuminate\Database\Seeder;
@@ -28,6 +29,15 @@ class VotablesTableSeeder extends Seeder
             {
                 $user = $users[$i];
                 $user->voteQuestion($question, $votes[rand(0, 1)]);
+            }
+        }
+
+        foreach (Answer::all() as $answer)
+        {
+            for ($i = 0; $i < rand(1, $numberOfUsers); $i++)
+            {
+                $user = $users[$i];
+                $user->voteAnswer($answer, $votes[rand(0, 1)]);
             }
         }
 
