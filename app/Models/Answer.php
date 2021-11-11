@@ -5,12 +5,13 @@ namespace App\Models;
 use Parsedown;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Mews\Purifier\Facades\Purifier;
 
 class Answer extends Model
 {
     use HasFactory;
     use VotableTrait;
-    
+
     protected $guarded = [];
 
     public function question(){
@@ -22,7 +23,7 @@ class Answer extends Model
     }
 
     public function getBodyHtmlAttribute(){
-        return Parsedown::instance()->text($this->body);
+        return Purifier::clean(Parsedown::instance()->text($this->body));
     }
 
     public static function boot(){

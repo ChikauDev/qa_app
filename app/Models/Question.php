@@ -8,6 +8,7 @@ use App\Models\Answer;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Mews\Purifier\Facades\Purifier;
 
 class Question extends Model
 {
@@ -23,6 +24,11 @@ class Question extends Model
     public function setTitleAttribute($value){
         $this->attributes['title'] = $value;
         $this->attributes['slug'] = Str::slug($value);
+    }
+
+    public function setBodyAttribute($value)
+    {
+        $this->attributes['body'] = Purifier::clean($value);
     }
 
     public function getUrlAttribute(){
@@ -44,11 +50,11 @@ class Question extends Model
     }
 
     public function getBodyHtmlAttribute(){
-        return Parsedown::instance()->text($this->body);
+        return Purifier::clean($this->bodyHtml());
     }
 
     public function answers(){
-        return $this->hasMany(Answer::class);
+        return $this->hasMany(Answer::class)->orderBy('votes_count', 'DESC');
     }
 
     public function acceptBestAnswer(Answer $answer){
@@ -70,5 +76,21 @@ class Question extends Model
 
     public function getFavoritesCountAttribute(){
         return $this->favorites()->count();
+    }
+
+    public function getExcerptAttribute()
+    {
+        return $this->excerpt(250);
+        // return Str::limit(strip_tags($this->bodyHtml(), 300));
+    }
+
+    public function excerpt($length)
+    {
+        return Str::limit(strip_tags($this->bodyHtml(), $length));
+    }
+
+    private function bodyHtml()
+    {
+        return Parsedown::instance()->text($this->body);
     }
 }
