@@ -44,7 +44,6 @@ export default {
         },
 
         destroy(){
-
             this.$toast.question('Are you sure to delete', "Confirm", {
                 timeout: 20000,
                 close: false,
