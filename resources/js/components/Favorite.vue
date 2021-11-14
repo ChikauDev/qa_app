@@ -1,7 +1,7 @@
 <template>
     <div>
         <a title="Click to mark as favorite question (Click again to undo)"
-        :class="classes">
+        :class="classes" @click="toggle()">
             <i class="fas fa-star fa-2x"></i>
             <span class="favorites-count">{{ count }}</span>
         </a>
@@ -16,7 +16,7 @@ export default {
         return {
             isFavorited: this.question.is_favorited,
             count: this.question.favorites_count,
-            signedIn: false,
+            id: this.question.id,
         }
     },
 
@@ -26,7 +26,49 @@ export default {
                 'favorite', 'mt-2',
                 ! this.signedIn ? 'off' : (this.isFavorited ? 'favorited' : '')
             ]
+        },
+
+        endpoint(){
+            return `/questions/${this.id}/favorites`;
+        },
+
+        signedIn(){
+            return window.Auth.signedIn;
         }
-    }
+    },
+
+    methods: {
+        toggle(){
+            if(!this.signedIn){
+                this.$toast.warning("Please login to favorite this question", "Warning", {
+                    timeout: 3000,
+                    position: 'bottomLeft',
+                })
+
+                return;
+            }
+            this.isFavorited ? this.  destroy() : this.create();
+        },
+        create(){
+            axios.post(this.endpoint)
+            .then(res => {
+                this.count++;
+                this.isFavorited = true;
+            })
+            .catch(err => {
+                console.log('Something wrong has been happened');
+            })
+        },
+        destroy(){
+            axios.delete(this.endpoint)
+            .then(res => {
+                this.count--;
+                this.isFavorited = false;
+            })
+            .catch(err => {
+                console.log('Something wrong has been happened');
+            })
+        }
+    },
 }
 </script>

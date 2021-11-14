@@ -4048,12 +4048,51 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isFavorited: this.question.is_favorited,
       count: this.question.favorites_count,
-      signedIn: false
+      id: this.question.id
     };
   },
   computed: {
     classes: function classes() {
       return ['favorite', 'mt-2', !this.signedIn ? 'off' : this.isFavorited ? 'favorited' : ''];
+    },
+    endpoint: function endpoint() {
+      return "/questions/".concat(this.id, "/favorites");
+    },
+    signedIn: function signedIn() {
+      return window.Auth.signedIn;
+    }
+  },
+  methods: {
+    toggle: function toggle() {
+      if (!this.signedIn) {
+        this.$toast.warning("Please login to favorite this question", "Warning", {
+          timeout: 3000,
+          position: 'bottomLeft'
+        });
+        return;
+      }
+
+      this.isFavorited ? this.destroy() : this.create();
+    },
+    create: function create() {
+      var _this = this;
+
+      axios.post(this.endpoint).then(function (res) {
+        _this.count++;
+        _this.isFavorited = true;
+      })["catch"](function (err) {
+        console.log('Something wrong has been happened');
+      });
+    },
+    destroy: function destroy() {
+      var _this2 = this;
+
+      axios["delete"](this.endpoint).then(function (res) {
+        _this2.count--;
+        _this2.isFavorited = false;
+      })["catch"](function (err) {
+        console.log('Something wrong has been happened');
+      });
     }
   }
 });
@@ -40249,6 +40288,11 @@ var render = function() {
         class: _vm.classes,
         attrs: {
           title: "Click to mark as favorite question (Click again to undo)"
+        },
+        on: {
+          click: function($event) {
+            return _vm.toggle()
+          }
         }
       },
       [
