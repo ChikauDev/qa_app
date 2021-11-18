@@ -28,7 +28,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('questions', QuestionController::class)->except('show');
 // Route::post('/question/{question}/answers', [AnswerController::class, 'store'])->name('ansers.store');
-Route::resource('questions.answers', AnswerController::class)->except(['index', 'create', 'show']);;
+Route::resource('questions.answers', AnswerController::class)->except(['create', 'show']);;
 Route::get('/questions/{slug}',[QuestionController::class, 'show'])->name('questions.show');
 
 Route::post('/answers/{answer}/accept', AcceptAnswerController::class)->name('answers.accept');
