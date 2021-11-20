@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import eventBus from '../event'
+
 export default {
     props: ['answer'],
 
@@ -27,6 +29,12 @@ export default {
         }
     },
 
+    created(){
+        eventBus.$on('accepted', id => {
+            this.isBest = (id === this.id);
+        })
+    },
+
     methods: {
         create(){
             axios.post(`/answers/${this.id}/accept`)
@@ -35,7 +43,10 @@ export default {
                         timeout: 3000,
                         position: 'bottomLeft'
                     });
+
                     this.isBest = true;
+
+                    eventBus.$emit('accepted', this.id);
                 })
         }
     },
@@ -43,7 +54,7 @@ export default {
     computed: {
 
         canAccept() {
-            // return this.authorize('accept',this.answer);
+            return this.authorize('accept',this.answer);
         },
 
         accepted(){

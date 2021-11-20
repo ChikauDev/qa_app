@@ -8,7 +8,7 @@
                             <h2>{{title}}</h2>
                         </div>
                         <hr>
-                        <answer v-for="answer in answers" :answer="answer" :key="answer.id"></answer>
+                        <answer v-on:deleted="remove(index)" v-for="(answer, index) in answers" :answer="answer" :key="answer.id"></answer>
                         <div class="text-center mt-3" v-if="nextUrl">
                             <button @click.prevent="fetch(nextUrl)" class="btn btn-outline-secondary">Load moer answers</button>
                         </div>
@@ -16,11 +16,13 @@
                 </div>
             </div>
         </div>
+        <new-answer @created="add" :question-id="question.id"></new-answer>
     </div>
 </template>
 
 <script>
-import Answer from './Answer.vue'
+import Answer from './Answer.vue';
+import NewAnswer from './NewAnswer.vue';
 
 export default {
     props: ['question'],
@@ -46,7 +48,15 @@ export default {
                     this.answers.push(...data.data);
                     this.nextUrl =  data.next_page_url;
                 })
-        }
+        },
+        add(answer){
+            this.answers.push(answer);
+            this.count++;
+        },
+        remove(index){
+            this.answers.splice(index,1);
+            this.count--;
+        },
     },
 
     computed:{
@@ -55,6 +65,6 @@ export default {
         }
     },
 
-    components: {Answer},
+    components: {Answer, NewAnswer},
 }
 </script>
