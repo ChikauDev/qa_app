@@ -1,4 +1,12 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/css/prismjs/prism-coy.css": "/css/prismjs/prism-coy.css",
+    "/css/prismjs/prism-dark.css": "/css/prismjs/prism-dark.css",
+    "/css/prismjs/prism-funky.css": "/css/prismjs/prism-funky.css",
+    "/css/prismjs/prism-okaidia.css": "/css/prismjs/prism-okaidia.css",
+    "/css/prismjs/prism-solarizedlight.css": "/css/prismjs/prism-solarizedlight.css",
+    "/css/prismjs/prism-tomorrow.css": "/css/prismjs/prism-tomorrow.css",
+    "/css/prismjs/prism-twilight.css": "/css/prismjs/prism-twilight.css",
+    "/css/prismjs/prism.css": "/css/prismjs/prism.css"
 }

@@ -94,8 +94,15 @@ class QuestionController extends Controller
         // if(Gate::denies('update-question', $question)){
         //     abort(403,"Access denied");
         // }
-
         $question->update($request->only('title', 'body'));
+
+        if($request->expectsJson()){
+            return response()->json([
+                'message' => "Your question has been updated",
+                "body_html" => $question->body_html,
+            ]);
+        }
+
         return redirect('/questions')->with('success', 'Your question has been updated');
     }
 
@@ -115,6 +122,11 @@ class QuestionController extends Controller
 
         $question->delete();
 
+        if(request()->expectsJson()){
+            return response()->json([
+                'message' => "Your question has been deleted",
+            ]);
+        }
         return redirect('/questions')->with('success', 'Your question has been deleted');
     }
 }
