@@ -6,9 +6,9 @@ use Parsedown;
 use App\Models\User;
 use App\Models\Answer;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Mews\Purifier\Facades\Purifier;
 
 class Question extends Model
 {
@@ -52,7 +52,7 @@ class Question extends Model
     }
 
     public function getBodyHtmlAttribute(){
-        return Purifier::clean($this->bodyHtml());
+        return clean($this->bodyHtml());
     }
 
     public function answers(){

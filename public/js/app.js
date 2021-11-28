@@ -59579,14 +59579,9 @@ var render = function() {
                             })
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn btn-primary",
-                              attrs: { disabled: _vm.isInvalid }
-                            },
-                            [_vm._v("Update")]
-                          ),
+                          _c("button", { staticClass: "btn btn-primary" }, [
+                            _vm._v("Update")
+                          ]),
                           _vm._v(" "),
                           _c(
                             "button",

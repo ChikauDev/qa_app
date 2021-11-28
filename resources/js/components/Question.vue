@@ -18,7 +18,7 @@
                                         <textarea v-model="body" class="form-control" rows="10" required>
                                         </textarea>
                                     </m-editor>
-                                    <button class="btn btn-primary" :disabled="isInvalid">Update</button>
+                                    <button class="btn btn-primary">Update</button>
                                     <button class="btn btn-outline-secondary" @click="cancel">Cancel</button>
                                 </div>
                             </div>

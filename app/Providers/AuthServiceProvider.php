@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Policies\AnswerPolicy;
+use Laravel\Passport\Passport;
 use App\Policies\QuestionPolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -29,6 +30,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+        
+        Passport::routes();
 
         // Gate::define('update-question', function($user, $question){
         //     return $user->id === $question->user_id;
